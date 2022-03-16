@@ -97,6 +97,49 @@ public class Long256Impl implements Long256, Sinkable, Long256Acceptor {
         Numbers.appendLong256(l0, l1, l2, l3, sink);
     }
 
+    public void add(long v0, long v1, long v2, long v3) {
+        boolean isNull = v0 == Numbers.LONG_NaN &&
+                v1 == Numbers.LONG_NaN &&
+                v2 == Numbers.LONG_NaN &&
+                v3 == Numbers.LONG_NaN;
+
+        if (isNull) {
+            this.setAll(Numbers.LONG_NaN,
+                    Numbers.LONG_NaN,
+                    Numbers.LONG_NaN,
+                    Numbers.LONG_NaN);
+        } else {
+            // The sum will overflow if both top bits are set (x & y) or if one of them
+            // is (x | y), and a carry from the lower place happened. If such a carry
+            // happens, the top bit will be 1 + 0 + 1 = 0 (& ~sum).
+            long carry = 0;
+            final long l0 = v0 + this.getLong0() + carry;
+            carry = ((v0 & this.getLong0()) | ((v0 | this.getLong0()) & ~l0)) >>> 63;
+
+            final long l1 = v1 + this.getLong1() + carry;
+            carry = ((v1 & this.getLong1()) | ((v1 | this.getLong1()) & ~l1)) >>> 63;
+
+            final long l2 = v2 + this.getLong2() + carry;
+            carry = ((v2 & this.getLong2()) | ((v2 | this.getLong2()) & ~l2)) >>> 63;
+
+            final long l3 = v3 + this.getLong3() + carry;
+            //carry = ((v3 & this.getLong3()) | ((v3 | this.getLong3()) & ~l3)) >>> 63;
+
+            this.setAll(l0, l1, l2, l3);
+        }
+    }
+
+    public void add(final Long256 x) {
+        this.add(x.getLong0(), x.getLong1(), x.getLong2(), x.getLong3());
+    }
+
+    public static Long256Impl add(final Long256 x, final Long256 y) {
+        Long256Impl sum = new Long256Impl();
+        sum.copyFrom(x);
+        sum.add(y);
+        return sum;
+    }
+
     static {
         NULL_LONG256.setAll(
                 Numbers.LONG_NaN,

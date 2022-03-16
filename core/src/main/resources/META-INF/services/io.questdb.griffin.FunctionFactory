@@ -77,6 +77,7 @@ io.questdb.griffin.engine.functions.math.AddLongFunctionFactory
 io.questdb.griffin.engine.functions.math.AddFloatFunctionFactory
 io.questdb.griffin.engine.functions.math.AddDoubleFunctionFactory
 io.questdb.griffin.engine.functions.date.AddLongToTimestampFunctionFactory
+io.questdb.griffin.engine.functions.math.AddLong256FunctionFactory
 
 # '-' operator
 io.questdb.griffin.engine.functions.math.NegIntFunctionFactory
@@ -89,6 +90,7 @@ io.questdb.griffin.engine.functions.math.SubDoubleFunctionFactory
 io.questdb.griffin.engine.functions.math.SubIntFunctionFactory
 io.questdb.griffin.engine.functions.math.SubLongFunctionFactory
 io.questdb.griffin.engine.functions.math.SubTimestampFunctionFactory
+io.questdb.griffin.engine.functions.math.SubLong256FunctionFactory
 
 # '/' operator
 io.questdb.griffin.engine.functions.math.DivDoubleFunctionFactory
